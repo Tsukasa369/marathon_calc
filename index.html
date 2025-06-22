@@ -14,56 +14,56 @@
         }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-[90vh] py-2 px4">
-    <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-md border border-gray-200">
-        <h1 class="text-2xl sm:text-3xl font-bold text-center mb-6 text-gray-800">マラソン電卓</h1>
+<body class="flex items-center justify-center p-2 sm:p-4">
+    <div class="bg-white p-4 sm:p-6 rounded-lg shadow-xl w-full max-w-md border border-gray-200">
+        <h1 class="text-2xl sm:text-3xl font-bold text-center mb-4 text-gray-800">マラソン電卓</h1>
 
         <!-- 表示エリア -->
-        <div class="mb-6 bg-gray-100 py-2 px4 rounded-md border border-gray-300">
-            <div class="flex justify-between items-center mb-2">
-                <span class="text-gray-600 text-lg">選択距離:</span>
-                <span id="display-distance" class="text-blue-600 font-semibold text-xl">-- km</span>
+        <div class="mb-4 bg-gray-100 p-3 rounded-md border border-gray-300">
+            <div class="flex justify-between items-center mb-1">
+                <span class="text-gray-600 text-base sm:text-lg">選択距離:</span>
+                <span id="display-distance" class="text-blue-600 font-semibold text-lg sm:text-xl">-- km</span>
             </div>
-            <div class="flex justify-between items-center mb-4">
-                <span class="text-gray-600 text-lg">合計時間 (分):</span>
+            <div class="flex justify-between items-center mb-3">
+                <span class="text-gray-600 text-base sm:text-lg">合計時間 (分):</span>
                 <input type="text" id="display-time-input" class="w-2/3 text-right text-green-700 font-bold text-2xl sm:text-3xl bg-gray-100 focus:outline-none" value="0" readonly>
             </div>
-            <hr class="border-gray-300 my-4">
+            <hr class="border-gray-300 my-3">
             <div class="text-center">
-                <p class="text-gray-700 text-lg mb-2">1kmあたりのタイム:</p>
-                <p id="display-pace" class="text-indigo-700 font-bold text-2xl sm:text-3xl mb-4">--:-- /km</p>
-                <p class="text-gray-700 text-lg mb-2">スピード (km/h):</p>
+                <p class="text-gray-700 text-base sm:text-lg mb-1">1kmあたりのタイム:</p>
+                <p id="display-pace" class="text-indigo-700 font-bold text-2xl sm:text-3xl mb-3">--:-- /km</p>
+                <p class="text-gray-700 text-base sm:text-lg mb-1">スピード (km/h):</p>
                 <p id="display-speed" class="text-red-600 font-bold text-2xl sm:text-3xl">-- km/h</p>
             </div>
         </div>
 
         <!-- 距離ボタン -->
-        <div class="grid grid-cols-3 gap-3 mb-6">
-            <button id="btn-42km" class="bg-purple-600 text-white py-2 text-base sm:text-lg rounded-md text-lg font-semibold hover:bg-purple-700 transition duration-200 shadow-md">
+        <div class="grid grid-cols-3 gap-2 mb-4">
+            <button id="btn-42km" class="bg-purple-600 text-white py-2 rounded-md text-sm sm:text-lg font-semibold hover:bg-purple-700 transition duration-200 shadow-md">
                 42km (フル)
             </button>
-            <button id="btn-21km" class="bg-purple-600 text-white py-2 text-base sm:text-lg rounded-md text-lg font-semibold hover:bg-purple-700 transition duration-200 shadow-md">
+            <button id="btn-21km" class="bg-purple-600 text-white py-2 rounded-md text-sm sm:text-lg font-semibold hover:bg-purple-700 transition duration-200 shadow-md">
                 21km (ハーフ)
             </button>
-            <button id="btn-10km" class="bg-purple-600 text-white py-2 text-base sm:text-lg rounded-md text-lg font-semibold hover:bg-purple-700 transition duration-200 shadow-md">
+            <button id="btn-10km" class="bg-purple-600 text-white py-2 rounded-md text-sm sm:text-lg font-semibold hover:bg-purple-700 transition duration-200 shadow-md">
                 10km
             </button>
         </div>
 
         <!-- 数字ボタン -->
-        <div class="grid grid-cols-3 gap-3">
-            <button class="btn-number bg-gray-300 text-gray-800 py-2 text-base sm:text-lg rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">7</button>
-            <button class="btn-number bg-gray-300 text-gray-800 py-2 text-base sm:text-lg rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">8</button>
-            <button class="btn-number bg-gray-300 text-gray-800 py-2 text-base sm:text-lg rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">9</button>
-            <button class="btn-number bg-gray-300 text-gray-800 py-2 text-base sm:text-lg rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">4</button>
-            <button class="btn-number bg-gray-300 text-gray-800 py-2 text-base sm:text-lg rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">5</button>
-            <button class="btn-number bg-gray-300 text-gray-800 py-2 text-base sm:text-lg rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">6</button>
-            <button class="btn-number bg-gray-300 text-gray-800 py-2 text-base sm:text-lg rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">1</button>
-            <button class="btn-number bg-gray-300 text-gray-800 py-2 text-base sm:text-lg rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">2</button>
-            <button class="btn-number bg-gray-300 text-gray-800 py-2 text-base sm:text-lg rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">3</button>
-            <button id="btn-clear" class="bg-red-500 text-white py-2 text-base sm:text-lg rounded-md text-xl font-bold hover:bg-red-600 transition duration-200 shadow-md">クリア</button>
-            <button class="btn-number bg-gray-300 text-gray-800 py-2 text-base sm:text-lg rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">0</button>
-            <button id="btn-calculate" class="bg-blue-500 text-white py-2 text-base sm:text-lg rounded-md text-xl font-bold hover:bg-blue-600 transition duration-200 shadow-md">計算</button>
+        <div class="grid grid-cols-3 gap-2">
+            <button class="btn-number bg-gray-300 text-gray-800 py-2 rounded-md text-xl sm:text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">7</button>
+            <button class="btn-number bg-gray-300 text-gray-800 py-2 rounded-md text-xl sm:text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">8</button>
+            <button class="btn-number bg-gray-300 text-gray-800 py-2 rounded-md text-xl sm:text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">9</button>
+            <button class="btn-number bg-gray-300 text-gray-800 py-2 rounded-md text-xl sm:text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">4</button>
+            <button class="btn-number bg-gray-300 text-gray-800 py-2 rounded-md text-xl sm:text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">5</button>
+            <button class="btn-number bg-gray-300 text-gray-800 py-2 rounded-md text-xl sm:text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">6</button>
+            <button class="btn-number bg-gray-300 text-gray-800 py-2 rounded-md text-xl sm:text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">1</button>
+            <button class="btn-number bg-gray-300 text-gray-800 py-2 rounded-md text-xl sm:text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">2</button>
+            <button class="btn-number bg-gray-300 text-gray-800 py-2 rounded-md text-xl sm:text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">3</button>
+            <button id="btn-clear" class="bg-red-500 text-white py-2 rounded-md text-lg sm:text-xl font-bold hover:bg-red-600 transition duration-200 shadow-md">クリア</button>
+            <button class="btn-number bg-gray-300 text-gray-800 py-2 rounded-md text-xl sm:text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">0</button>
+            <button id="btn-calculate" class="bg-blue-500 text-white py-2 rounded-md text-lg sm:text-xl font-bold hover:bg-blue-600 transition duration-200 shadow-md">計算</button>
         </div>
     </div>
 
@@ -85,19 +85,29 @@
         let inputTime = '0';     // 入力された合計時間 (分)
 
         /**
-         * 電卓の表示を更新する関数
+         * 入力値と選択距離を表示する関数
+         * 計算は行わない
          */
-        function updateDisplay() {
-            displayDistance.textContent = currentDistance > 0 ? `${currentDistance} km` : '-- km';
+        function updateInputDisplay() {
+            // フルマラソン、ハーフマラソンの正確な距離を表示するため、toFixed(3)を使用
+            displayDistance.textContent = currentDistance > 0 ? `${currentDistance.toFixed(3)} km` : '-- km';
             displayTimeInput.value = inputTime;
+        }
 
-            // 距離と時間が有効な場合のみ計算して表示
-            if (currentDistance > 0 && parseFloat(inputTime) > 0) {
-                const totalMinutes = parseFloat(inputTime);
+        /**
+         * 1kmあたりのタイムとスピードを計算し表示する関数
+         */
+        function calculateAndDisplayResults() {
+            // 現在の入力値を取得
+            const distance = currentDistance;
+            const time = parseFloat(inputTime);
+
+            if (distance > 0 && time > 0) {
+                const totalMinutes = time;
                 const totalHours = totalMinutes / 60; // 合計時間を時間に変換
 
                 // 1kmあたりの時間 (分/km)
-                const paceMinutesPerKm = totalMinutes / currentDistance;
+                const paceMinutesPerKm = totalMinutes / distance;
                 const paceMinutes = Math.floor(paceMinutesPerKm); // 分の部分
                 const paceSeconds = Math.round((paceMinutesPerKm - paceMinutes) * 60); // 秒の部分
 
@@ -106,7 +116,7 @@
                 displayPace.textContent = `${paceMinutes}:${formattedPaceSeconds} /km`;
 
                 // スピード (km/h)
-                const speedKmh = currentDistance / totalHours;
+                const speedKmh = distance / totalHours;
                 displaySpeed.textContent = `${speedKmh.toFixed(1)} km/h`; // 小数点以下1桁で表示
             } else {
                 // 有効なデータがない場合は初期表示に戻す
@@ -122,12 +132,21 @@
         numberButtons.forEach(button => {
             button.addEventListener('click', (event) => {
                 const digit = event.target.textContent;
-                if (inputTime === '0') {
-                    inputTime = digit; // 最初の入力の場合は0を置き換える
-                } else {
-                    inputTime += digit; // それ以外の場合は数字を追加
+                // '0'が入力されている状態でさらに'0'を入力しても変化させない
+                if (inputTime === '0' && digit === '0') {
+                    return;
                 }
-                updateDisplay(); // 表示を更新
+                // 最初の入力が'0'であれば、新しい数字で置き換える
+                if (inputTime === '0') {
+                    inputTime = digit;
+                } else {
+                    // 入力桁数に制限を設ける（例: 5桁まで）
+                    if (inputTime.length < 5) {
+                       inputTime += digit;
+                    }
+                }
+                updateInputDisplay(); // 入力値と距離表示のみを更新
+                // 計算結果は自動では更新しない
             });
         });
 
@@ -137,7 +156,8 @@
          */
         function setDistance(distance) {
             currentDistance = distance;
-            updateDisplay(); // 表示を更新
+            updateInputDisplay(); // 距離表示のみを更新
+            // 計算結果は自動では更新しない
         }
 
         // 距離ボタンにイベントリスナーを追加
@@ -151,20 +171,20 @@
         btnClear.addEventListener('click', () => {
             currentDistance = 0;
             inputTime = '0';
-            updateDisplay(); // 表示をリセット
+            updateInputDisplay(); // 表示をリセット
+            calculateAndDisplayResults(); // 計算結果もリセット（入力値が0なので表示がクリアされる）
         });
 
         /**
-         * 計算ボタンクリック時の処理 (現在は数字入力で自動計算されるため、明示的な計算は不要だが、ボタンは残す)
+         * 計算ボタンクリック時の処理
          */
         btnCalculate.addEventListener('click', () => {
-            // 数字入力時に自動で計算されるため、ここでは特別な処理は不要だが、
-            // ボタンが押されたことを示すために、表示を強制的に更新する
-            updateDisplay();
+            calculateAndDisplayResults(); // ここで計算と結果表示を行う
         });
 
         // 初期表示を更新
-        updateDisplay();
+        updateInputDisplay();
+        calculateAndDisplayResults(); // アプリ起動時は初期の '--:--' を表示するために呼ぶ
     </script>
 </body>
 </html>
