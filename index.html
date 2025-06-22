@@ -16,36 +16,36 @@
 </head>
 <body class="flex items-center justify-center min-h-[90vh] py-2 px-4">
     <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-md border border-gray-200">
-        <h1 class="text-2xl sm:text-3xl font-bold text-center mb-6 text-gray-800">マラソン電卓</h1>
+        <h1 class="text-2xl sm:text-3xl font-bold text-center mb-6 text-gray-600">マラソン電卓</h1>
 
         <!-- 表示エリア -->
-        <div class="mb-6 bg-gray-100 py-2 px-4 rounded-md border border-gray-300">
+        <div class="mb-6 bg-gray-80 py-2 px-4 rounded-md border border-gray-300">
             <div class="flex justify-between items-center mb-2">
-                <span class="text-gray-600 text-lg">選択距離:</span>
+                <span class="text-gray-500 text-lg">選択距離:</span>
                 <span id="display-distance" class="text-blue-600 font-semibold text-xl">-- km</span>
             </div>
             <div class="flex justify-between items-center mb-4">
-                <span class="text-gray-600 text-lg">合計時間 (分):</span>
+                <span class="text-gray-500 text-lg">合計時間 (分):</span>
                 <input type="text" id="display-time-input" class="w-2/3 text-right text-green-700 font-bold text-2xl sm:text-3xl  bg-gray-100 focus:outline-none" value="0" readonly>
             </div>
             <hr class="border-gray-300 my-4">
             <div class="text-center">
-                <p class="text-gray-700 text-lg mb-2">1kmあたりのタイム:</p>
+                <p class="text-gray-600 text-lg mb-2">1kmあたりのタイム:</p>
                 <p id="display-pace" class="text-indigo-700 font-bold text-2xl sm:text-3xl mb-4">--:-- /km</p>
-                <p class="text-gray-700 text-lg mb-2">スピード (km/h):</p>
+                <p class="text-gray-600 text-lg mb-2">スピード (km/h):</p>
                 <p id="display-speed" class="text-red-600 font-bold text-2xl sm:text-3xl">-- km/h</p>
             </div>
         </div>
 
         <!-- 距離ボタン -->
         <div class="grid grid-cols-3 gap-3 mb-6">
-            <button id="btn-42km" class="bg-purple-600 text-white py-2 text-base sm:text-lg rounded-md text-lg font-semibold hover:bg-purple-600 transition duration-200 shadow-md">
+            <button id="btn-42km" class="bg-purple-550 text-white py-2 text-base sm:text-lg rounded-md text-lg font-semibold hover:bg-purple-450 transition duration-200 shadow-md">
                 42km (フル)
             </button>
-            <button id="btn-21km" class="bg-purple-600 text-white py-2 text-base sm:text-lg rounded-md text-lg font-semibold hover:bg-purple-600 transition duration-200 shadow-md">
+            <button id="btn-21km" class="bg-purple-550 text-white py-2 text-base sm:text-lg rounded-md text-lg font-semibold hover:bg-purple-450 transition duration-200 shadow-md">
                 21km (ハーフ)
             </button>
-            <button id="btn-10km" class="bg-purple-600 text-white py-2 text-base sm:text-lg rounded-md text-lg font-semibold hover:bg-purple-600 transition duration-200 shadow-md">
+            <button id="btn-10km" class="bg-purple-550 text-white py-2 text-base sm:text-lg rounded-md text-lg font-semibold hover:bg-purple-450 transition duration-200 shadow-md">
                 10km
             </button>
         </div>
@@ -90,6 +90,8 @@
         function updateDisplay() {
             displayDistance.textContent = currentDistance > 0 ? `${currentDistance} km` : '-- km';
             displayTimeInput.value = inputTime;
+            displayPace.textContent = '--:-- /km;
+            displaySpeed.textContent = '--:-- km/h;
 
             // 距離と時間が有効な場合のみ計算して表示
             if (currentDistance > 0 && parseFloat(inputTime) > 0) {
@@ -100,12 +102,14 @@
                 const paceMinutesPerKm = totalMinutes / currentDistance;
                 const paceMinutes = Math.floor(paceMinutesPerKm); // 分の部分
                 const paceSeconds = Math.round((paceMinutesPerKm - paceMinutes) * 60); // 秒の部分
+                const formattedPaceSecond = paceSeconds < 10 ? '0' + paceSeconds : paceSeconds;
 
                 // 秒を2桁表示にフォーマット
-                const formattedPaceSeconds = paceSeconds < 10 ? '0' + paceSeconds : paceSeconds;
-                displayPace.textContent = `${paceMinutes}:${formattedPaceSeconds} /km`;
+                //const formattedPaceSeconds = paceSeconds < 10 ? '0' + paceSeconds : paceSeconds;
+                //displayPace.textContent = `${paceMinutes}:${formattedPaceSeconds} /km`;
 
                 // スピード (km/h)
+                displayPace.textContent = '${paceMinutes}:${formattedPaceSeconds} /km';
                 const speedKmh = currentDistance / totalHours;
                 displaySpeed.textContent = `${speedKmh.toFixed(1)} km/h`; // 小数点以下1桁で表示
             } else {
@@ -127,7 +131,7 @@
                 } else {
                     inputTime += digit; // それ以外の場合は数字を追加
                 }
-                updateDisplay(); // 表示を更新
+                updateInputs(); // 表示を更新
             });
         });
 
@@ -137,13 +141,13 @@
          */
         function setDistance(distance) {
             currentDistance = distance;
-            updateDisplay(); // 表示を更新
+            updateInputs(); // 表示を更新
         }
 
         // 距離ボタンにイベントリスナーを追加
-        btn42km.addEventListener('click', () => setDistance(42.195)); // フルマラソンは正確な距離に
-        btn21km.addEventListener('click', () => setDistance(21.0975)); // ハーフマラソンも正確な距離に
-        btn10km.addEventListener('click', () => setDistance(10));
+        //btn42km.addEventListener('click', () => setDistance(42.195)); // フルマラソンは正確な距離に
+        //btn21km.addEventListener('click', () => setDistance(21.0975)); // ハーフマラソンも正確な距離に
+        //btn10km.addEventListener('click', () => setDistance(10));
 
         /**
          * クリアボタンクリック時の処理
@@ -151,20 +155,22 @@
         btnClear.addEventListener('click', () => {
             currentDistance = 0;
             inputTime = '0';
-            updateDisplay(); // 表示をリセット
+            updateInputs(); // 表示をリセット
         });
 
         /**
          * 計算ボタンクリック時の処理 (現在は数字入力で自動計算されるため、明示的な計算は不要だが、ボタンは残す)
          */
         btnCalculate.addEventListener('click', () => {
+            calculateAndDisplayResults(); //⇦ この時だけ計算実行
+            
             // 数字入力時に自動で計算されるため、ここでは特別な処理は不要だが、
             // ボタンが押されたことを示すために、表示を強制的に更新する
-            updateDisplay();
+            //updateDisplay();
         });
 
         // 初期表示を更新
-        updateDisplay();
+        updateInputs();
     </script>
 </body>
 </html>
