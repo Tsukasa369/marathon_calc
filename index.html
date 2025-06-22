@@ -19,51 +19,51 @@
         <h1 class="text-2xl sm:text-3xl font-bold text-center mb-6 text-gray-800">マラソン電卓</h1>
 
         <!-- 表示エリア -->
-        <div class="mb-6 bg-gray-100 p-4 rounded-md border border-gray-300">
+        <div class="mb-6 bg-gray-100 py2 px4 rounded-md border border-gray-300">
             <div class="flex justify-between items-center mb-2">
                 <span class="text-gray-600 text-lg">選択距離:</span>
                 <span id="display-distance" class="text-blue-600 font-semibold text-xl">-- km</span>
             </div>
             <div class="flex justify-between items-center mb-4">
                 <span class="text-gray-600 text-lg">合計時間 (分):</span>
-                <input type="text" id="display-time-input" class="w-2/3 text-right text-green-700 font-bold text-3xl bg-gray-100 focus:outline-none" value="0" readonly>
+                <input type="text" id="display-time-input" class="w-2/3 text-right text-green-700 font-bold text-2xl sm:text-3xl  bg-gray-100 focus:outline-none" value="0" readonly>
             </div>
             <hr class="border-gray-300 my-4">
             <div class="text-center">
                 <p class="text-gray-700 text-lg mb-2">1kmあたりのタイム:</p>
-                <p id="display-pace" class="text-indigo-700 font-bold text-3xl mb-4">--:-- /km</p>
+                <p id="display-pace" class="text-indigo-700 font-bold text-2xl sm:text-3xl mb-4">--:-- /km</p>
                 <p class="text-gray-700 text-lg mb-2">スピード (km/h):</p>
-                <p id="display-speed" class="text-red-600 font-bold text-3xl">-- km/h</p>
+                <p id="display-speed" class="text-red-600 font-bold text-2xl sm:text-3xl">-- km/h</p>
             </div>
         </div>
 
         <!-- 距離ボタン -->
         <div class="grid grid-cols-3 gap-3 mb-6">
-            <button id="btn-42km" class="bg-purple-600 text-white py-3 rounded-md text-lg font-semibold hover:bg-purple-700 transition duration-200 shadow-md">
+            <button id="btn-42km" class="bg-purple-600 text-white py-2 text-base sm:text-lg rounded-md text-lg font-semibold hover:bg-purple-700 transition duration-200 shadow-md">
                 42km (フル)
             </button>
-            <button id="btn-21km" class="bg-purple-600 text-white py-3 rounded-md text-lg font-semibold hover:bg-purple-700 transition duration-200 shadow-md">
+            <button id="btn-21km" class="bg-purple-600 text-white py-2 text-base sm:text-lg rounded-md text-lg font-semibold hover:bg-purple-700 transition duration-200 shadow-md">
                 21km (ハーフ)
             </button>
-            <button id="btn-10km" class="bg-purple-600 text-white py-3 rounded-md text-lg font-semibold hover:bg-purple-700 transition duration-200 shadow-md">
+            <button id="btn-10km" class="bg-purple-600 text-white py-2 text-base sm:text-lg rounded-md text-lg font-semibold hover:bg-purple-700 transition duration-200 shadow-md">
                 10km
             </button>
         </div>
 
         <!-- 数字ボタン -->
         <div class="grid grid-cols-3 gap-3">
-            <button class="btn-number bg-gray-300 text-gray-800 py-3 rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">7</button>
-            <button class="btn-number bg-gray-300 text-gray-800 py-3 rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">8</button>
-            <button class="btn-number bg-gray-300 text-gray-800 py-3 rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">9</button>
-            <button class="btn-number bg-gray-300 text-gray-800 py-3 rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">4</button>
-            <button class="btn-number bg-gray-300 text-gray-800 py-3 rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">5</button>
-            <button class="btn-number bg-gray-300 text-gray-800 py-3 rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">6</button>
-            <button class="btn-number bg-gray-300 text-gray-800 py-3 rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">1</button>
-            <button class="btn-number bg-gray-300 text-gray-800 py-3 rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">2</button>
-            <button class="btn-number bg-gray-300 text-gray-800 py-3 rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">3</button>
-            <button id="btn-clear" class="bg-red-500 text-white py-3 rounded-md text-xl font-bold hover:bg-red-600 transition duration-200 shadow-md">クリア</button>
-            <button class="btn-number bg-gray-300 text-gray-800 py-3 rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">0</button>
-            <button id="btn-calculate" class="bg-blue-500 text-white py-3 rounded-md text-xl font-bold hover:bg-blue-600 transition duration-200 shadow-md">計算</button>
+            <button class="btn-number bg-gray-300 text-gray-800 py-2 text-base sm:text-lg rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">7</button>
+            <button class="btn-number bg-gray-300 text-gray-800 py-2 text-base sm:text-lg rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">8</button>
+            <button class="btn-number bg-gray-300 text-gray-800 py-2 text-base sm:text-lg rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">9</button>
+            <button class="btn-number bg-gray-300 text-gray-800 py-2 text-base sm:text-lg rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">4</button>
+            <button class="btn-number bg-gray-300 text-gray-800 py-2 text-base sm:text-lg rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">5</button>
+            <button class="btn-number bg-gray-300 text-gray-800 py-2 text-base sm:text-lg rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">6</button>
+            <button class="btn-number bg-gray-300 text-gray-800 py-2 text-base sm:text-lg rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">1</button>
+            <button class="btn-number bg-gray-300 text-gray-800 py-2 text-base sm:text-lg rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">2</button>
+            <button class="btn-number bg-gray-300 text-gray-800 py-2 text-base sm:text-lg rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">3</button>
+            <button id="btn-clear" class="bg-red-500 text-white py-2 text-base sm:text-lg rounded-md text-xl font-bold hover:bg-red-600 transition duration-200 shadow-md">クリア</button>
+            <button class="btn-number bg-gray-300 text-gray-800 py-2 text-base sm:text-lg rounded-md text-2xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">0</button>
+            <button id="btn-calculate" class="bg-blue-500 text-white py-2 text-base sm:text-lg rounded-md text-xl font-bold hover:bg-blue-600 transition duration-200 shadow-md">計算</button>
         </div>
     </div>
 
