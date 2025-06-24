@@ -12,6 +12,35 @@
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6; /* 薄いグレーの背景 */
         }
+        /* スクロール可能なスプリットタイム表示エリア */
+        #split-times-results {
+            max-height: 120px; /* 高さを制限 */
+            overflow-y: auto; /* 垂直スクロールを有効にする */
+            -webkit-overflow-scrolling: touch; /* iOSでのスムーズなスクロール */
+        }
+        /* スクロール可能な予測タイム表示エリア */
+        #prediction-results {
+            max-height: 120px; /* 高さを制限 */
+            overflow-y: auto; /* 垂直スクロールを有効にする */
+            -webkit-overflow-scrolling: touch; /* iOSでのスムーズなスクロール */
+        }
+        /* カスタム入力フィールドのスタイル */
+        .custom-input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            border: 1px solid #d1d5db; /* gray-300 */
+            background-color: #f9fafb; /* gray-50 */
+            font-weight: 600;
+            color: #1f2937; /* gray-900 */
+            text-align: right;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .custom-input:focus {
+            outline: none;
+            border-color: #3b82f6; /* blue-500 */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+        }
     </style>
 </head>
 <body class="flex items-center justify-center p-2 sm:p-4 min-h-screen">
@@ -34,6 +63,14 @@
                 <p id="display-pace" class="text-indigo-700 font-bold text-xl sm:text-2xl mb-2">--:-- /km</p>
                 <p class="text-gray-700 text-sm sm:text-base mb-1">スピード (km/h):</p>
                 <p id="display-speed" class="text-red-600 font-bold text-xl sm:text-2xl">-- km/h</p>
+            </div>
+            <hr class="border-gray-300 my-2">
+            <div class="text-center mt-2">
+                <p class="text-gray-700 text-sm sm:text-base mb-1">スプリットタイム (1kmごと):</p>
+                <div id="split-times-results" class="bg-gray-50 p-2 rounded-md border border-gray-200 text-left text-sm sm:text-base">
+                    <!-- スプリットタイムがここに動的に表示されます -->
+                    <p class="text-gray-500">計算後に表示されます</p>
+                </div>
             </div>
         </div>
 
@@ -65,14 +102,59 @@
             <button class="btn-number bg-gray-300 text-gray-800 py-2 rounded-md text-lg sm:text-xl font-bold hover:bg-gray-400 transition duration-200 shadow-sm">0</button>
             <button id="btn-calculate" class="bg-blue-500 text-white py-2 rounded-md text-base sm:text-lg font-bold hover:bg-blue-600 transition duration-200 shadow-md">計算</button>
         </div>
+
+        <hr class="border-gray-300 my-4">
+
+        <!-- タイム予測セクション -->
+        <div class="bg-white p-3 rounded-lg border border-gray-200">
+            <h2 class="text-xl sm:text-2xl font-bold text-center mb-3 text-gray-800">タイム予測</h2>
+
+            <div class="grid grid-cols-2 gap-2 mb-3">
+                <div class="col-span-2">
+                    <label for="base-time-input" class="block text-gray-600 text-sm mb-1">基準タイム (分):</label>
+                    <input type="number" id="base-time-input" class="custom-input" value="0">
+                </div>
+                <div>
+                    <label for="base-distance-select" class="block text-gray-600 text-sm mb-1">基準距離:</label>
+                    <select id="base-distance-select" class="custom-input py-2">
+                        <option value="10">10km</option>
+                        <option value="21.0975">ハーフマラソン (21.0975km)</option>
+                        <option value="42.195">フルマラソン (42.195km)</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="predict-distance-select" class="block text-gray-600 text-sm mb-1">予測距離:</label>
+                    <select id="predict-distance-select" class="custom-input py-2">
+                        <option value="10">10km</option>
+                        <option value="21.0975">ハーフマラソン (21.0975km)</option>
+                        <option value="42.195" selected>フルマラソン (42.195km)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button id="btn-predict" class="bg-teal-600 text-white py-2 rounded-md text-base sm:text-lg font-bold w-full hover:bg-teal-700 transition duration-200 shadow-md">
+                予測計算
+            </button>
+
+            <div class="text-center mt-3 bg-gray-100 p-2 rounded-md border border-gray-300">
+                <p class="text-gray-700 text-sm sm:text-base mb-1">予測タイム:</p>
+                <div id="prediction-results" class="text-indigo-700 font-bold text-xl sm:text-2xl break-words">
+                    --:--:--
+                </div>
+            </div>
+            <p class="text-gray-500 text-xs mt-2 text-center">
+                ※リーゲル式に基づく予測です。個人の特性により誤差が生じることがあります。
+            </p>
+        </div>
     </div>
 
     <script>
-        // DOM要素の参照を取得
+        // DOM要素の参照を取得 (既存の要素)
         const displayDistance = document.getElementById('display-distance');
         const displayTimeInput = document.getElementById('display-time-input');
         const displayPace = document.getElementById('display-pace');
         const displaySpeed = document.getElementById('display-speed');
+        const splitTimesResults = document.getElementById('split-times-results');
         const btn42km = document.getElementById('btn-42km');
         const btn21km = document.getElementById('btn-21km');
         const btn10km = document.getElementById('btn-10km');
@@ -80,51 +162,85 @@
         const btnCalculate = document.getElementById('btn-calculate');
         const numberButtons = document.querySelectorAll('.btn-number');
 
-        // アプリケーションの状態を管理する変数
+        // DOM要素の参照を取得 (タイム予測機能の新しい要素)
+        const baseTimeInput = document.getElementById('base-time-input');
+        const baseDistanceSelect = document.getElementById('base-distance-select');
+        const predictDistanceSelect = document.getElementById('predict-distance-select');
+        const btnPredict = document.getElementById('btn-predict');
+        const predictionResults = document.getElementById('prediction-results');
+
+        // アプリケーションの状態を管理する変数 (既存の変数)
         let currentDistance = 0; // 選択された距離 (km)
         let inputTime = '0';     // 入力された合計時間 (分)
+
+        /**
+         * 分をHH:MM:SS形式にフォーマットするヘルパー関数
+         * @param {number} totalMinutes - 総時間（分）
+         * @returns {string} HH:MM:SS形式の文字列
+         */
+        function formatMinutesToHMS(totalMinutes) {
+            if (isNaN(totalMinutes) || totalMinutes < 0) {
+                return '--:--:--';
+            }
+            const hours = Math.floor(totalMinutes / 60);
+            const minutes = Math.floor(totalMinutes % 60);
+            const seconds = Math.round((totalMinutes % 1) * 60);
+
+            const h = hours < 10 ? '0' + hours : hours;
+            const m = minutes < 10 ? '0' + minutes : minutes;
+            const s = seconds < 10 ? '0' + seconds : seconds;
+
+            return `${h}時間${m}分${s}秒`;
+        }
 
         /**
          * 入力値と選択距離を表示する関数
          * 計算は行わない
          */
         function updateInputDisplay() {
-            // フルマラソン、ハーフマラソンの正確な距離を表示するため、toFixed(3)を使用
             displayDistance.textContent = currentDistance > 0 ? `${currentDistance.toFixed(3)} km` : '-- km';
             displayTimeInput.value = inputTime;
-            // 計算結果はクリアされたままにするか、初期値に戻す
             displayPace.textContent = '--:-- /km';
             displaySpeed.textContent = '-- km/h';
+            splitTimesResults.innerHTML = '<p class="text-gray-500">計算後に表示されます</p>';
         }
 
         /**
-         * 1kmあたりのタイムとスピードを計算し表示する関数
+         * 1kmあたりのタイムとスピード、スプリットタイムを計算し表示する関数
          */
         function calculateAndDisplayResults() {
-            // 現在の入力値を取得
             const distance = currentDistance;
             const time = parseFloat(inputTime);
 
             if (distance > 0 && time > 0) {
                 const totalMinutes = time;
-                const totalHours = totalMinutes / 60; // 合計時間を時間に変換
+                const totalHours = totalMinutes / 60;
 
-                // 1kmあたりの時間 (分/km)
                 const paceMinutesPerKm = totalMinutes / distance;
-                const paceMinutes = Math.floor(paceMinutesPerKm); // 分の部分
-                const paceSeconds = Math.round((paceMinutesPerKm - paceMinutes) * 60); // 秒の部分
+                const paceMinutes = Math.floor(paceMinutesPerKm);
+                const paceSeconds = Math.round((paceMinutesPerKm - paceMinutes) * 60);
 
-                // 秒を2桁表示にフォーマット
                 const formattedPaceSeconds = paceSeconds < 10 ? '0' + paceSeconds : paceSeconds;
                 displayPace.textContent = `${paceMinutes}:${formattedPaceSeconds} /km`;
 
-                // スピード (km/h)
                 const speedKmh = distance / totalHours;
-                displaySpeed.textContent = `${speedKmh.toFixed(1)} km/h`; // 小数点以下1桁で表示
+                displaySpeed.textContent = `${speedKmh.toFixed(1)} km/h`;
+
+                splitTimesResults.innerHTML = '';
+                let splitHtml = '';
+                for (let km = 1; km <= Math.floor(distance); km++) {
+                    const cumulativeMinutes = paceMinutesPerKm * km;
+                    splitHtml += `<p>${km}km: ${formatMinutesToHMS(cumulativeMinutes)}</p>`;
+                }
+                if (distance % 1 !== 0) {
+                    splitHtml += `<p>${distance.toFixed(3)}km (合計): ${formatMinutesToHMS(totalMinutes)}</p>`;
+                }
+                splitTimesResults.innerHTML = splitHtml;
+
             } else {
-                // 有効なデータがない場合は初期表示に戻す
                 displayPace.textContent = '--:-- /km';
                 displaySpeed.textContent = '-- km/h';
+                splitTimesResults.innerHTML = '<p class="text-gray-500">計算後に表示されます</p>';
             }
         }
 
@@ -135,20 +251,17 @@
         numberButtons.forEach(button => {
             button.addEventListener('click', (event) => {
                 const digit = event.target.textContent;
-                // '0'が入力されている状態でさらに'0'を入力しても変化させない
                 if (inputTime === '0' && digit === '0') {
                     return;
                 }
-                // 最初の入力が'0'であれば、新しい数字で置き換える
                 if (inputTime === '0') {
                     inputTime = digit;
                 } else {
-                    // 入力桁数に制限を設ける（例: 5桁まで、一般的なマラソンタイムは分単位で5桁を超えることは稀）
                     if (inputTime.length < 5) {
                        inputTime += digit;
                     }
                 }
-                updateInputDisplay(); // 入力値と距離表示のみを更新、計算結果はリセット
+                updateInputDisplay();
             });
         });
 
@@ -158,12 +271,12 @@
          */
         function setDistance(distance) {
             currentDistance = distance;
-            updateInputDisplay(); // 距離表示のみを更新、計算結果はリセット
+            updateInputDisplay();
         }
 
         // 距離ボタンにイベントリスナーを追加
-        btn42km.addEventListener('click', () => setDistance(42.195)); // フルマラソンは正確な距離に
-        btn21km.addEventListener('click', () => setDistance(21.0975)); // ハーフマラソンも正確な距離に
+        btn42km.addEventListener('click', () => setDistance(42.195));
+        btn21km.addEventListener('click', () => setDistance(21.0975));
         btn10km.addEventListener('click', () => setDistance(10));
 
         /**
@@ -172,19 +285,49 @@
         btnClear.addEventListener('click', () => {
             currentDistance = 0;
             inputTime = '0';
-            updateInputDisplay(); // 表示をリセット (距離、時間、計算結果すべて)
+            baseTimeInput.value = '0'; // 予測タイム入力もリセット
+            baseDistanceSelect.value = '10'; // 予測距離選択も初期値に
+            predictDistanceSelect.value = '42.195'; // 予測距離選択も初期値に
+            updateInputDisplay();
+            predictionResults.textContent = '--:--:--'; // 予測結果もクリア
         });
 
         /**
          * 計算ボタンクリック時の処理
          */
         btnCalculate.addEventListener('click', () => {
-            calculateAndDisplayResults(); // ここで計算と結果表示を行う
+            calculateAndDisplayResults();
         });
 
-        // 初期表示を更新（計算結果は空の状態で開始）
-        updateInputDisplay();
-    </script>
+        /**
+         * タイム予測計算ボタンクリック時の処理
+         */
+        btnPredict.addEventListener('click', () => {
+            calculatePredictedTime();
+        });
 
+        /**
+         * リーゲル式でタイムを予測する関数
+         */
+        function calculatePredictedTime() {
+            const t1 = parseFloat(baseTimeInput.value); // 基準タイム (分)
+            const d1 = parseFloat(baseDistanceSelect.value); // 基準距離 (km)
+            const d2 = parseFloat(predictDistanceSelect.value); // 予測距離 (km)
+
+            if (isNaN(t1) || t1 <= 0 || isNaN(d1) || d1 <= 0 || isNaN(d2) || d2 <= 0) {
+                predictionResults.textContent = '入力エラー';
+                return;
+            }
+
+            // リーゲル式: T2 = T1 * (D2 / D1)^1.06
+            const t2 = t1 * Math.pow((d2 / d1), 1.06);
+
+            predictionResults.textContent = formatMinutesToHMS(t2);
+        }
+
+        // 初期表示を更新
+        updateInputDisplay();
+        predictionResults.textContent = '--:--:--'; // 予測結果の初期表示
+    </script>
 </body>
 </html>
