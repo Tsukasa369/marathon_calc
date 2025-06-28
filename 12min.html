@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>12分間走 → ハーフ予測</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: sans-serif; padding: 2rem; }
+    input, button { padding: 0.5rem; font-size: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>12分間走 → ハーフ予測タイム</h1>
+  <label>12分で走れた距離（m）：<input id="distance" type="number" /></label>
+  <button onclick="calculate()">計算する</button>
+  <p id="result"></p>
+
+  <script>
+    function calculate() {
+      const distance = parseFloat(document.getElementById('distance').value);
+      if (isNaN(distance)) {
+        document.getElementById('result').textContent = '距離を入力してください。';
+        return;
+      }
+      const predictedMinutes = 201.26 - 0.03433 * distance;
+      const minutes = Math.floor(predictedMinutes);
+      const seconds = Math.round((predictedMinutes - minutes) * 60);
+      document.getElementById('result').textContent = 
+        `推定ハーフマラソンタイム：${minutes}分${seconds}秒`;
+    }
+  </script>
+</body>
+</html>
